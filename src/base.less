@@ -1,0 +1,68 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.app-layout {
+  background-image: url('../src/assets/images/top-ellipse.png');
+  background-position: top right;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+
+  main {
+    padding: 40px;
+    max-width: 1140px;
+    margin: 0 auto;
+  }
+}
+
+.basic-layout {
+  min-height: 100vh;
+
+  & > main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.header {
+  position: fixed;
+  z-index: 99;
+  line-height: 74px;
+  width: 100%;
+  box-shadow: 0px 20px 40px rgba(58, 73, 192, 0.1);
+
+  .header__user {
+    float: right;
+  }
+}
+
+.sidebar {
+  z-index: 100;
+  padding: 45px 15px;
+
+  .sidebar__menu {
+    border: none;
+  }
+  .menu__item {
+    border-radius: 15px;
+  }
+  .ant-menu-item-selected {
+    font-weight: bold;
+  }
+}
+
+.form-control > input {
+  border-radius: 0;
+}
+
+.text-info {
+  color: #AEB9D0 !important;
+  font-weight: bold;
+  font-size: 15px;
+}
