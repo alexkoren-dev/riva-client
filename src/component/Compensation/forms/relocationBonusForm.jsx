@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Typography, Button, InputNumber, Row, Col } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
 
-const RelocationBonusForm = ({ onNext, onPrev = null, initialValues }) => {
+const RelocationBonusForm = ({ onNext, initialValues }) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ relocationBonus }) => {
@@ -43,13 +43,6 @@ const RelocationBonusForm = ({ onNext, onPrev = null, initialValues }) => {
           </Col>
         </Row>
         <div className="form__footer">
-          {onPrev && (
-            <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-              <Button type="default" size="large" onClick={onPrev}>
-                Back
-              </Button>
-            </Form.Item>
-          )}
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
             <Button htmlType="submit" type="primary" size="large">
               OK

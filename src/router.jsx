@@ -1,6 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { LinkedInPopUp } from 'react-linkedin-login-oauth2'
+import { WalletOutlined } from '@ant-design/icons'
 
 // Layouts
 import { AppLayout, BasicLayout } from '@/layouts'
@@ -29,7 +30,7 @@ export default () => {
       component: NewsFeed,
       navigation: {
         title: 'News Feed',
-        Icon: WalletIcon
+        Icon: WalletOutlined
       }
     },
     {
@@ -61,6 +62,7 @@ export default () => {
     },
     {
       path: '/home',
+      guard: AuthGuard,
       exact: true,
       component: () => <Redirect to="/news-feed" />
     },

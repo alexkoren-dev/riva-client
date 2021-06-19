@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useMemo } from 'react'
 import {
   Form,
   Typography,
@@ -10,15 +10,53 @@ import {
   Col
 } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
+import { publicApi } from '@/utils/request'
 
-const LocationForm = ({ onNext, onPrev = null, initialValues }) => {
+const LOCATION_SEARCH_API = 'https://api.levels.fyi/geo/autocompleteCity'
+
+const LocationForm = ({ onNext, initialValues }) => {
   const [form] = Form.useForm()
+  const [options, setOptions] = useState([])
+  const [suggestedCities, setSuggestedCities] = useState([])
 
   const onFinish = ({ location, isHybridRole }) => {
-    onNext({ location: { location, isHybridRole } })
+    const searched_cities = suggestedCities.filter((lo) => lo.name === location)
+    onNext({
+      location:
+        searched_cities.length > 0
+          ? { ...searched_cities[0], isHybridRole }
+          : {
+              name: location,
+              isHybridRole
+            }
+    })
   }
 
-  console.log(initialValues)
+  const onSearch = async (searchText) => {
+    try {
+      const cities = await publicApi.get(
+        `${LOCATION_SEARCH_API}?q=${searchText}`
+      )
+      setSuggestedCities(cities)
+      setOptions(
+        cities.map((data, i) => ({
+          value: data.name,
+          key: i,
+          label: data.name
+        }))
+      )
+    } catch (e) {
+      setOptions([])
+      setSuggestedCities([])
+    }
+  }
+
+  useMemo(() => {
+    if (initialValues && initialValues.countryId) {
+      setSuggestedCities([initialValues])
+    }
+  }, [initialValues])
+
   return (
     <div className="compensation-form">
       <Typography.Title level={3}>
@@ -30,7 +68,7 @@ const LocationForm = ({ onNext, onPrev = null, initialValues }) => {
         layout="vertical"
         onFinish={onFinish}
         initialValues={{
-          location: initialValues.location,
+          location: initialValues.name,
           isHybridRole: initialValues.isHybridRole
         }}
         validateMessages={COMMON_VALIDATE_MESSAGES}
@@ -43,7 +81,7 @@ const LocationForm = ({ onNext, onPrev = null, initialValues }) => {
               required={false}
               rules={[{ required: true }]}
             >
-              <AutoComplete>
+              <AutoComplete options={options} onSearch={onSearch}>
                 <Input size="large" className="form-control" />
               </AutoComplete>
             </Form.Item>
@@ -61,13 +99,6 @@ const LocationForm = ({ onNext, onPrev = null, initialValues }) => {
           </Col>
         </Row>
         <div className="form__footer">
-          {onPrev && (
-            <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-              <Button type="default" size="large" onClick={onPrev}>
-                Back
-              </Button>
-            </Form.Item>
-          )}
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
             <Button htmlType="submit" type="primary" size="large">
               OK

@@ -16,7 +16,7 @@ const DURATION_OPTIONS = [
   { label: '6+ years', value: 6 }
 ]
 
-const EquityForm = ({ onNext, onPrev = null, initialValues }) => {
+const EquityForm = ({ onNext, initialValues }) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ equity, unit, duration }) => {
@@ -107,13 +107,6 @@ const EquityForm = ({ onNext, onPrev = null, initialValues }) => {
           </Col>
         </Row>
         <div className="form__footer">
-          {onPrev && (
-            <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-              <Button type="default" size="large" onClick={onPrev}>
-                Back
-              </Button>
-            </Form.Item>
-          )}
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
             <Button htmlType="submit" type="primary" size="large">
               OK

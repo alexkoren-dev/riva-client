@@ -7,7 +7,7 @@ const VISA_OPTIONS = [
   { label: 'No', value: 'no' }
 ]
 
-const NeedVisaForm = ({ onNext, onPrev = null, initialValues }) => {
+const NeedVisaForm = ({ onNext, initialValues }) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ needVisa }) => {
@@ -46,13 +46,6 @@ const NeedVisaForm = ({ onNext, onPrev = null, initialValues }) => {
           </Col>
         </Row>
         <div className="form__footer">
-          {onPrev && (
-            <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-              <Button type="default" size="large" onClick={onPrev}>
-                Back
-              </Button>
-            </Form.Item>
-          )}
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
             <Button htmlType="submit" type="primary" size="large">
               OK

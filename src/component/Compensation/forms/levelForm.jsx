@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Typography, Button, Input, Row, Col } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
 
-const LevelForm = ({ onNext, onPrev = null, initialValues }) => {
+const LevelForm = ({ onNext, initialValues }) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ level }) => {
@@ -35,13 +35,6 @@ const LevelForm = ({ onNext, onPrev = null, initialValues }) => {
           </Col>
         </Row>
         <div className="form__footer">
-          {onPrev && (
-            <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-              <Button type="default" size="large" onClick={onPrev}>
-                Back
-              </Button>
-            </Form.Item>
-          )}
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
             <Button htmlType="submit" type="primary" size="large">
               OK

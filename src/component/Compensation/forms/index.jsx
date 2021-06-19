@@ -14,6 +14,8 @@ import YearsAtCompanyForm from './yearsAtCompanyForm'
 import YearsOfExperienceForm from './yearsOfExperienceForm'
 import RacialForm from './racialForm'
 import CheckAllForm from './checkAllForm'
+import OfferReviewForm from './offerReviewForm'
+import NewCommentForm from './newCommentForm'
 
 export {
   CompanyForm,
@@ -31,5 +33,7 @@ export {
   YearsAtCompanyForm,
   YearsOfExperienceForm,
   RacialForm,
-  CheckAllForm
+  CheckAllForm,
+  OfferReviewForm,
+  NewCommentForm
 }

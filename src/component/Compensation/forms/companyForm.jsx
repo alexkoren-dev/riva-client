@@ -16,7 +16,7 @@ const renderLabel = (data) => (
   </div>
 )
 
-const CompanyForm = ({ onNext, onPrev = null, initialValues = null }) => {
+const CompanyForm = ({ onNext, initialValues = null }) => {
   const [form] = Form.useForm()
   const [options, setOptions] = useState([])
   const [suggestedCompanies, setSuggestedCompanies] = useState([])
@@ -88,13 +88,6 @@ const CompanyForm = ({ onNext, onPrev = null, initialValues = null }) => {
           </Col>
         </Row>
         <div className="form__footer">
-          {onPrev && (
-            <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-              <Button type="default" size="large" onClick={onPrev}>
-                Back
-              </Button>
-            </Form.Item>
-          )}
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
             <Button htmlType="submit" type="primary" size="large">
               OK

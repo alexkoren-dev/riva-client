@@ -6,7 +6,7 @@ const CheckboxGroup = Checkbox.Group
 
 const plainOptions = ['Queer', 'Lesbian', 'Veteran', 'Immigrant']
 
-const CheckAllForm = ({ onNext, onPrev = null, initialValues }) => {
+const CheckAllForm = ({ onNext, initialValues }) => {
   const [form] = Form.useForm()
   const [checkedList, setCheckedList] = useState(
     initialValues ? initialValues : []
@@ -51,13 +51,6 @@ const CheckAllForm = ({ onNext, onPrev = null, initialValues }) => {
           </Col>
         </Row>
         <div className="form__footer">
-          {onPrev && (
-            <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-              <Button type="default" size="large" onClick={onPrev}>
-                Back
-              </Button>
-            </Form.Item>
-          )}
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
             <Button htmlType="submit" type="primary" size="large">
               OK

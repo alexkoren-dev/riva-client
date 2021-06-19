@@ -6,7 +6,7 @@ import router from '@/router'
 const { SubMenu } = Menu
 const { Sider } = Layout
 
-const SideBar = () => {
+const SideBar = (props) => {
   const history = useHistory()
   const location = useLocation()
 
@@ -44,7 +44,7 @@ const SideBar = () => {
   }
 
   return (
-    <Sider collapsible width={280} theme="light" className="sidebar">
+    <Sider collapsible width={280} theme="light" className="sidebar" {...props}>
       <Menu
         onClick={({ key }) => history.push(key)}
         theme="light"
