@@ -27,6 +27,7 @@ export default () => {
       path: '/news-feed',
       exact: true,
       layout: AppLayout,
+      guard: AuthGuard,
       component: NewsFeed,
       navigation: {
         title: 'News Feed',
