@@ -25,6 +25,7 @@ const Login = (props) => {
           password: values.password
         })
       )
+      await dispatch(AuthActions.getCurrentUser())
       props.history.push('/')
       setLoading(false)
     } catch (err) {
@@ -37,6 +38,7 @@ const Login = (props) => {
       if (authResult['code']) {
         setLoading(true)
         await dispatch(AuthActions.linkedinAuthentication(authResult['code']))
+        await dispatch(AuthActions.getCurrentUser())
         setLoading(false)
       } else {
         throw new Error(authResult)

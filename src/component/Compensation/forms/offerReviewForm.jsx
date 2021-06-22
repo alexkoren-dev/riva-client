@@ -1,31 +1,37 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { Form, Button, Input, Rate } from 'antd'
-import { COMMON_VALIDATE_MESSAGES } from '@/constants'
 import { formatNumber } from '@/utils'
 
-const OfferReviewForm = () => {
+const OfferReviewForm = ({ giveOfferFeedback, loading }) => {
   const [form] = Form.useForm()
   let currentValue = ''
 
   const onFinish = (values) => {
-    console.log(values)
+    giveOfferFeedback({
+      rate: values.rate,
+      fairTotal: parseFloat(values.fairTotal.replace(/,/g, ''))
+    })
   }
 
   const onChange = (e) => {
     const value = e.target.value.replace(/,/g, '')
-    const reg = /^-?\d*(\.\d*)?$/
+    const reg = /^-?\d*(\d*)?$/
 
     if ((!isNaN(value) && reg.test(value)) || value === '') {
       currentValue = formatNumber(value)
       form.setFieldsValue({
-        fairCompensation: formatNumber(value)
+        fairTotal: formatNumber(value)
       })
     } else {
       form.setFieldsValue({
-        fairCompensation: currentValue
+        fairTotal: currentValue
       })
     }
   }
+
+  useEffect(() => {
+    if (!loading) form.resetFields()
+  }, [loading])
 
   return (
     <div className="offer-review-form">
@@ -47,11 +53,14 @@ const OfferReviewForm = () => {
           compensation for this role?
         </p>
         <Form.Item
-          name="fairCompensation"
+          name="fairTotal"
           label={'Fair Compensation'}
           required={false}
           rules={[
-            { required: true, message: 'Please enter compensation value.' }
+            {
+              required: true,
+              message: 'Please enter a fair total compensation.'
+            }
           ]}
           style={{ marginBottom: 15 }}
         >
@@ -70,6 +79,7 @@ const OfferReviewForm = () => {
             htmlType="submit"
             type="primary"
             size="middle"
+            loading={loading}
             style={{ minWidth: 165 }}
           >
             Submit

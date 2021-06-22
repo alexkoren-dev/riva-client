@@ -26,6 +26,7 @@ const SignUp = (props) => {
           linkedInUrl: values.linkedin
         })
       )
+      await dispatch(AuthActions.getCurrentUser())
       props.history.push('/')
       setLoading(false)
     } catch (err) {
@@ -38,6 +39,7 @@ const SignUp = (props) => {
       if (authResult['code']) {
         setLoading(true)
         await dispatch(AuthActions.linkedinAuthentication(authResult['code']))
+        await dispatch(AuthActions.getCurrentUser())
         setLoading(false)
       } else {
         throw new Error(authResult)

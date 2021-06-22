@@ -3,11 +3,11 @@ import { Form, Typography, Button, Select, Row, Col } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
 
 const VISA_OPTIONS = [
-  { label: 'Yes', value: 'yes' },
-  { label: 'No', value: 'no' }
+  { label: 'Yes', value: 'Needs Visa sponsorship' },
+  { label: 'No', value: 'No Visa sponsorship' }
 ]
 
-const NeedVisaForm = ({ onNext, initialValues }) => {
+const NeedVisaForm = ({ onNext, initialValues, loading }) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ needVisa }) => {
@@ -47,7 +47,12 @@ const NeedVisaForm = ({ onNext, initialValues }) => {
         </Row>
         <div className="form__footer">
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-            <Button htmlType="submit" type="primary" size="large">
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+              loading={loading}
+            >
               OK
             </Button>
           </Form.Item>

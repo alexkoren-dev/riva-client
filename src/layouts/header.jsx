@@ -35,11 +35,7 @@ const Header = () => {
             {userInfo.avatar ? (
               <img src={userInfo.avatar} />
             ) : (
-              <Avatar size={50}>
-                <span
-                  style={{ textTransform: 'uppercase' }}
-                >{`${userInfo.firstName[0]}${userInfo.lastName[0]}`}</span>
-              </Avatar>
+              <Avatar size={50} />
             )}
           </Dropdown>
         </div>

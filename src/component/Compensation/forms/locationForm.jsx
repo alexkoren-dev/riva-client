@@ -14,7 +14,7 @@ import { publicApi } from '@/utils/request'
 
 const LOCATION_SEARCH_API = 'https://api.levels.fyi/geo/autocompleteCity'
 
-const LocationForm = ({ onNext, initialValues }) => {
+const LocationForm = ({ onNext, initialValues, loading }) => {
   const [form] = Form.useForm()
   const [options, setOptions] = useState([])
   const [suggestedCities, setSuggestedCities] = useState([])
@@ -100,7 +100,12 @@ const LocationForm = ({ onNext, initialValues }) => {
         </Row>
         <div className="form__footer">
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-            <Button htmlType="submit" type="primary" size="large">
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+              loading={loading}
+            >
               OK
             </Button>
           </Form.Item>

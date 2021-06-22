@@ -36,6 +36,7 @@ export default () => {
     },
     {
       path: '/compensation',
+      guard: AuthGuard,
       exact: true,
       layout: AppLayout,
       component: Compensation

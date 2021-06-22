@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
-import { Card, Row, Col, Typography, Progress, Button } from 'antd'
+import { useDispatch, useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
+import { Card, Row, Col, Typography, Progress, Button, Result } from 'antd'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 import {
   CompanyForm,
   LevelForm,
@@ -18,6 +21,13 @@ import {
   RacialForm,
   CheckAllForm
 } from '../forms'
+import actions from '@/services/compensation'
+import {
+  isObjectEquivalent,
+  totalCompensation,
+  compensationString,
+  kFormatter
+} from '@/utils'
 
 const Forms = [
   CompanyForm,
@@ -38,39 +48,57 @@ const Forms = [
   CheckAllForm
 ]
 
-const CompensationCreateCard = ({ data = null }) => {
-  const [compensationData, setCompensationData] = useState(
-    data
-      ? data
-      : {
-          company: {},
-          level: '',
-          jobTitle: '',
-          jobFamily: '',
-          yearsOfExperience: null,
-          yearsAtCompany: null,
-          location: {},
-          baseSalary: null,
-          targetBonus: {},
-          equity: {},
-          signingBonus: null,
-          relocationBonus: null,
-          gender: '',
-          needVisa: false,
-          racial: '',
-          checkAll: []
-        }
-  )
+const CompensationCreateCard = () => {
+  const dispatch = useDispatch()
+  const { userCompensation } = useSelector((state) => state.compensation)
+  const [loading, setLoading] = useState(false)
+  const [compensationData, setCompensationData] = useState({
+    company: {},
+    level: '',
+    jobTitle: '',
+    jobFamily: '',
+    yearsOfExperience: null,
+    yearsAtCompany: null,
+    location: {},
+    baseSalary: null,
+    targetBonus: {},
+    equity: {},
+    signingBonus: null,
+    relocationBonus: null,
+    gender: '',
+    needVisa: '',
+    racial: '',
+    checkAll: [],
+    ...userCompensation
+  })
   const [step, setStep] = useState(0)
 
-  const onNext = (newData) => {
-    if (step >= 15) {
-      console.log({ ...compensationData, ...newData })
-    }
-
+  const onNext = async (newData) => {
     if (step < 16) {
-      setStep(step + 1)
-      setCompensationData({ ...compensationData, ...newData })
+      setLoading(true)
+
+      try {
+        const newCompensation = { ...compensationData, ...newData }
+        const res = isObjectEquivalent(newCompensation, compensationData)
+          ? {}
+          : await dispatch(
+              step === 0 && !compensationData.id
+                ? actions.createCompensation({
+                    ...newCompensation,
+                    total: totalCompensation(newCompensation)
+                  })
+                : actions.updateCompensation({
+                    ...newCompensation,
+                    total: totalCompensation(newCompensation)
+                  })
+            )
+
+        setLoading(false)
+        setStep(step + 1)
+        setCompensationData({ ...newCompensation, ...res })
+      } catch (err) {
+        setLoading(false)
+      }
     }
   }
 
@@ -89,30 +117,53 @@ const CompensationCreateCard = ({ data = null }) => {
       <Row gutter={[30, 30]} style={{ padding: '2% 4%' }}>
         <Col span={24}>
           {compensationData.company.logo && (
-            <img src={compensationData.company.logo} />
+            <img
+              src={compensationData.company.logo}
+              style={{ marginBottom: 20 }}
+            />
           )}
-          <Typography.Title level={1} style={{ paddingTop: 20 }}>
-            $-
+          <Typography.Title level={1}>
+            $
+            {totalCompensation(compensationData)
+              ? kFormatter(totalCompensation(compensationData))
+              : '-'}
           </Typography.Title>
           <p className="text-info" style={{ maxWidth: 400, marginBottom: 50 }}>
-            $-K base | $-K bonus | $-K equity | $-K signing bonus | $-K
-            relocation bonus
+            {compensationString(compensationData)}
           </p>
-          <CurrentForm onNext={onNext} initialValues={getInitialValues()} />
+          {step === 16 ? (
+            <Result
+              status="success"
+              title="Your compensation is completed!"
+              extra={[
+                <NavLink to={'/news-feed'} className="redirect-link" key="feed">
+                  <Button type="primary">Go News Feed</Button>
+                </NavLink>
+              ]}
+            />
+          ) : (
+            <CurrentForm
+              onNext={onNext}
+              initialValues={getInitialValues()}
+              loading={loading}
+            />
+          )}
         </Col>
         <Col span={24}>
           <div className="compensation-card__footer">
             {step > 0 && (
               <Button type="default" className="btn-back" onClick={onPrev}>
-                🠔 Back
+                <ArrowLeftOutlined /> Back
               </Button>
             )}
-            <div className="inline-progress">
-              <Progress
-                strokeLinecap="square"
-                percent={Math.ceil((100 / 16) * step)}
-              />
-            </div>
+            {step < 16 && (
+              <div className="inline-progress">
+                <Progress
+                  strokeLinecap="square"
+                  percent={Math.ceil((100 / 16) * step)}
+                />
+              </div>
+            )}
           </div>
         </Col>
       </Row>

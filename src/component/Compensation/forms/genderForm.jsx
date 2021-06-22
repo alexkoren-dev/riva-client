@@ -12,7 +12,7 @@ const GENDER_OPTIONS = [
   { label: 'I prefer not to say', value: 'not-to-say' }
 ]
 
-const GenderForm = ({ onNext, initialValues }) => {
+const GenderForm = ({ onNext, initialValues, loading }) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ gender }) => {
@@ -52,7 +52,12 @@ const GenderForm = ({ onNext, initialValues }) => {
         </Row>
         <div className="form__footer">
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-            <Button htmlType="submit" type="primary" size="large">
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+              loading={loading}
+            >
               OK
             </Button>
           </Form.Item>

@@ -41,7 +41,7 @@ const CompensationItemCard = (data) => {
           </div>
         </Col>
         <Col span={24} style={{ paddingTop: 25 }}>
-          <CompensationComments />
+          <CompensationComments comments={data.comments || []} />
         </Col>
       </Row>
     </Card>

@@ -3,11 +3,11 @@ import { Form, Typography, Button, InputNumber, Row, Col, Select } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
 
 const UNIT_OPTIONS = [
-  { label: 'Dollar', value: 'dollar' },
-  { label: 'Percent', value: 'percent' }
+  { label: 'Dollar', value: '$' },
+  { label: 'Percent', value: '%' }
 ]
 
-const TargetBonusForm = ({ onNext, initialValues }) => {
+const TargetBonusForm = ({ onNext, initialValues, loading }) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ targetBonus, unit }) => {
@@ -73,7 +73,12 @@ const TargetBonusForm = ({ onNext, initialValues }) => {
         </Row>
         <div className="form__footer">
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-            <Button htmlType="submit" type="primary" size="large">
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+              loading={loading}
+            >
               OK
             </Button>
           </Form.Item>

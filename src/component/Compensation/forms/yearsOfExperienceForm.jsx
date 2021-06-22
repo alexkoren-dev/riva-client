@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Typography, Button, InputNumber, Row, Col } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
 
-const YearsOfExperience = ({ onNext, initialValues }) => {
+const YearsOfExperience = ({ onNext, initialValues, loading }) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ yearsOfExperience }) => {
@@ -42,7 +42,12 @@ const YearsOfExperience = ({ onNext, initialValues }) => {
         </Row>
         <div className="form__footer">
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-            <Button htmlType="submit" type="primary" size="large">
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+              loading={loading}
+            >
               OK
             </Button>
           </Form.Item>

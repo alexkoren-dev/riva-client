@@ -8,6 +8,7 @@ import enUS from 'antd/lib/locale/en_US'
 import router from '@/router'
 import Auth from '@/component/AuthWrap'
 import TopAlert from '@/component/TopAlert'
+import ScrollReset from '@/component/ScrollReset'
 import LoadingScreen from '@/component/LoadingScreen'
 
 const history = createBrowserHistory()
@@ -53,7 +54,10 @@ const App = () => {
     <ConfigProvider locale={enUS}>
       <TopAlert />
       <Router history={history}>
-        <Auth>{renderRoutes(routers)}</Auth>
+        <Auth>
+          <ScrollReset />
+          {renderRoutes(routers)}
+        </Auth>
       </Router>
     </ConfigProvider>
   )

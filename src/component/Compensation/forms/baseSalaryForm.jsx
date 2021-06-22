@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Typography, Button, InputNumber, Col, Row } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
 
-const BaseSalaryForm = ({ onNext, initialValues }) => {
+const BaseSalaryForm = ({ onNext, initialValues, loading }) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ baseSalary }) => {
@@ -45,7 +45,12 @@ const BaseSalaryForm = ({ onNext, initialValues }) => {
 
         <div className="form__footer">
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-            <Button htmlType="submit" type="primary" size="large">
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+              loading={loading}
+            >
               OK
             </Button>
           </Form.Item>

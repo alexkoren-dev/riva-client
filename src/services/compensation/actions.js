@@ -2,7 +2,7 @@ import { COMMON, COMPENSATION } from '@/constants'
 import { privateApi } from '@/utils/request'
 
 // Get all compensations
-export const getUserCompensation = () => {
+export const getAllCompensation = () => {
   return async (dispatch) => {
     try {
       const res = await privateApi.get('/compensation/all')
@@ -46,6 +46,48 @@ export const getUserCompensationPercentile = () => {
       const res = await privateApi.get('/compensation/percentile')
       dispatch({
         type: COMPENSATION.COMPENSATION_PERCENTILE,
+        payload: res.percentile
+      })
+      return res.percentile
+    } catch (err) {
+      dispatch({
+        type: COMMON.TOP_ALERT,
+        payload: { type: 'error', message: err.message }
+      })
+      throw err
+    }
+  }
+}
+
+// Get recent compensation offer
+export const getCompensationOffer = () => {
+  return async (dispatch) => {
+    try {
+      const res = await privateApi.get('/compensation/offer')
+      dispatch({
+        type: COMPENSATION.OFFERED_COMPENSATION,
+        payload: res
+      })
+    } catch (err) {
+      dispatch({
+        type: COMMON.TOP_ALERT,
+        payload: { type: 'error', message: err.message }
+      })
+      throw err
+    }
+  }
+}
+
+// Give offer feedback
+export const giveOfferFeedback = (id, feedback) => {
+  return async (dispatch) => {
+    try {
+      const res = await privateApi.post(
+        `/compensation/feedback/${id}`,
+        feedback
+      )
+      dispatch({
+        type: COMPENSATION.OFFERED_COMPENSATION,
         payload: res
       })
     } catch (err) {
@@ -67,6 +109,7 @@ export const createCompensation = (data) => {
         type: COMPENSATION.USER_COMPENSATION,
         payload: res
       })
+      return res
     } catch (err) {
       dispatch({
         type: COMMON.TOP_ALERT,
@@ -81,16 +124,33 @@ export const createCompensation = (data) => {
 export const updateCompensation = (data) => {
   return async (dispatch) => {
     try {
-      const res = await privateApi.put(`/compensation/${data._id}`, data)
+      const res = await privateApi.put(`/compensation/${data.id}`, data)
       dispatch({
         type: COMPENSATION.USER_COMPENSATION,
         payload: res
       })
+      return res
     } catch (err) {
       dispatch({
         type: COMMON.TOP_ALERT,
         payload: { type: 'error', message: err.message }
       })
+      throw err
+    }
+  }
+}
+
+// Like a new compensation
+export const likeOrDislike = async (id, like) => {
+  return async (dispatch) => {
+    try {
+      const res = await privateApi.post(`/compensation/like/${id}`, like)
+      dispatch({
+        type: COMPENSATION.UPDATE_COMPENSATION,
+        payload: res
+      })
+      return res
+    } catch (err) {
       throw err
     }
   }

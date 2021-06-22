@@ -3,7 +3,7 @@ import { Form, Typography, Button, InputNumber, Row, Col, Select } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
 
 const UNIT_OPTIONS = [
-  { label: 'Dollars', value: 'dollar' },
+  { label: 'Dollars', value: '$' },
   { label: 'Shares', value: 'shares' }
 ]
 
@@ -16,15 +16,15 @@ const DURATION_OPTIONS = [
   { label: '6+ years', value: 6 }
 ]
 
-const EquityForm = ({ onNext, initialValues }) => {
+const EquityForm = ({ onNext, initialValues, loading }) => {
   const [form] = Form.useForm()
 
-  const onFinish = ({ equity, unit, duration }) => {
+  const onFinish = ({ equity, unit, period }) => {
     onNext({
       equity: {
         value: equity,
         unit,
-        duration
+        period
       }
     })
   }
@@ -42,8 +42,8 @@ const EquityForm = ({ onNext, initialValues }) => {
         initialValues={{
           equity: initialValues.value,
           unit: initialValues.unit ? initialValues.unit : UNIT_OPTIONS[0].value,
-          duration: initialValues.duration
-            ? initialValues.duration
+          period: initialValues.period
+            ? initialValues.period
             : DURATION_OPTIONS[0].value
         }}
         validateMessages={COMMON_VALIDATE_MESSAGES}
@@ -88,8 +88,8 @@ const EquityForm = ({ onNext, initialValues }) => {
               </Col>
               <Col span={12}>
                 <Form.Item
-                  name="duration"
-                  label={'Duration'}
+                  name="period"
+                  label={'Period'}
                   required={false}
                   rules={[{ required: true }]}
                   style={{ marginBottom: 0 }}
@@ -108,7 +108,12 @@ const EquityForm = ({ onNext, initialValues }) => {
         </Row>
         <div className="form__footer">
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-            <Button htmlType="submit" type="primary" size="large">
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+              loading={loading}
+            >
               OK
             </Button>
           </Form.Item>

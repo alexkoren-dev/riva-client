@@ -105,7 +105,7 @@ const OPTIONS = [
   }
 ]
 
-const JobFamilyForm = ({ onNext, initialValues }) => {
+const JobFamilyForm = ({ onNext, initialValues, loading }) => {
   const [form] = Form.useForm()
 
   const onFinish = ({ jobFamily }) => {
@@ -141,7 +141,12 @@ const JobFamilyForm = ({ onNext, initialValues }) => {
         </Row>
         <div className="form__footer">
           <Form.Item shouldUpdate={true} style={{ marginBottom: 0 }}>
-            <Button htmlType="submit" type="primary" size="large">
+            <Button
+              htmlType="submit"
+              type="primary"
+              size="large"
+              loading={loading}
+            >
               OK
             </Button>
           </Form.Item>

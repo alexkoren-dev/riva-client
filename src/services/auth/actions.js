@@ -1,4 +1,4 @@
-import { AUTH, COMMON } from '@/constants'
+import { AUTH, COMMON, COMPENSATION } from '@/constants'
 import { publicApi, privateApi } from '@/utils/request'
 import axios from 'axios'
 
@@ -13,7 +13,11 @@ export const getCurrentUser = () => {
       })
       dispatch({
         type: AUTH.USER_INFO,
-        payload: res
+        payload: res.user
+      })
+      dispatch({
+        type: COMPENSATION.USER_COMPENSATION,
+        payload: res.compensation || {}
       })
     } catch (err) {
       dispatch(logOut())
@@ -26,13 +30,6 @@ export const login = (obj) => (dispatch) =>
   publicApi
     .post('/user/signin', obj)
     .then((res) => {
-      dispatch({
-        type: AUTH.SIGNED_IN
-      })
-      dispatch({
-        type: AUTH.USER_INFO,
-        payload: res
-      })
       window.localStorage.setItem('accessToken', res.token)
     })
     .catch((err) => {
@@ -49,16 +46,7 @@ export const register = (obj) => {
     return publicApi
       .post('/user/signup', obj)
       .then((res) => {
-        console.log(res)
-        dispatch({
-          type: AUTH.SIGNED_IN
-        })
-        dispatch({
-          type: AUTH.USER_INFO,
-          payload: res
-        })
         window.localStorage.setItem('accessToken', res.token)
-        return res
       })
       .catch((err) => {
         dispatch({
@@ -75,13 +63,6 @@ export const linkedinAuthentication = (code) => (dispatch) =>
   publicApi
     .post('/user/linkedin-authenticate', { code })
     .then((res) => {
-      dispatch({
-        type: AUTH.SIGNED_IN
-      })
-      dispatch({
-        type: AUTH.USER_INFO,
-        payload: res
-      })
       window.localStorage.setItem('accessToken', res.token)
     })
     .catch((err) => {
@@ -137,6 +118,10 @@ export const logOut = () => {
   return (dispatch) => {
     dispatch({
       type: AUTH.SIGNED_OUT
+    })
+    dispatch({
+      type: COMPENSATION.USER_COMPENSATION,
+      payload: {}
     })
   }
 }

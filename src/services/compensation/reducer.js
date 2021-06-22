@@ -1,9 +1,9 @@
 import { COMPENSATION } from '@/constants'
 
 const initState = {
-  userCompensation: null,
-  userCompensationPercentile: 0,
-  compensationOffer: null,
+  userCompensation: {},
+  userCompensationPercentile: null,
+  compensationOffers: [],
   allCompensations: []
 }
 
@@ -20,7 +20,16 @@ const CompensationReducer = (state = initState, action) => {
     case COMPENSATION.OFFERED_COMPENSATION:
       return {
         ...state,
-        compensationOffer: Object.assign({}, payload)
+        compensationOffers: Object.assign([], payload)
+      }
+
+    case COMPENSATION.UPDATE_COMPENSATION:
+      let newOffers = state.compensationOffers.map(
+        (obj) => [payload].find((o) => o.id === obj.id) || obj
+      )
+      return {
+        ...state,
+        compensationOffers: Object.assign([], newOffers)
       }
 
     case COMPENSATION.COMPENSATION_PERCENTILE:
