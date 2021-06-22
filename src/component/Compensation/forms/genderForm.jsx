@@ -3,13 +3,13 @@ import { Form, Typography, Button, Select, Row, Col } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
 
 const GENDER_OPTIONS = [
-  { label: 'Male', value: 'male' },
-  { label: 'Female', value: 'female' },
-  { label: 'Non-binary', value: 'non-binary' },
-  { label: 'Transgender', value: 'transgender' },
-  { label: 'Intersex', value: 'intersex' },
-  { label: 'Other', value: 'other' },
-  { label: 'I prefer not to say', value: 'not-to-say' }
+  { label: 'Male', value: 'Male' },
+  { label: 'Female', value: 'Female' },
+  { label: 'Non-binary', value: 'Non-binary' },
+  { label: 'Transgender', value: 'Transgender' },
+  { label: 'Intersex', value: 'Intersex' },
+  { label: 'Other', value: 'Other' },
+  { label: 'I prefer not to say', value: 'I prefer not to say' }
 ]
 
 const GenderForm = ({ onNext, initialValues, loading }) => {

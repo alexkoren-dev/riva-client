@@ -27,8 +27,7 @@ const SignUp = (props) => {
         })
       )
       await dispatch(AuthActions.getCurrentUser())
-      props.history.push('/')
-      setLoading(false)
+      props.history.push('/news-feed')
     } catch (err) {
       setLoading(false)
     }
@@ -40,7 +39,7 @@ const SignUp = (props) => {
         setLoading(true)
         await dispatch(AuthActions.linkedinAuthentication(authResult['code']))
         await dispatch(AuthActions.getCurrentUser())
-        setLoading(false)
+        props.history.push('/news-feed')
       } else {
         throw new Error(authResult)
       }

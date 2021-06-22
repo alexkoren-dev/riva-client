@@ -4,7 +4,8 @@ const initState = {
   userCompensation: {},
   userCompensationPercentile: null,
   compensationOffers: [],
-  allCompensations: []
+  allCompensations: [],
+  totalCount: 0
 }
 
 const CompensationReducer = (state = initState, action) => {
@@ -27,9 +28,13 @@ const CompensationReducer = (state = initState, action) => {
       let newOffers = state.compensationOffers.map(
         (obj) => [payload].find((o) => o.id === obj.id) || obj
       )
+      let newCompensationList = state.allCompensations.map(
+        (obj) => [payload].find((o) => o.id === obj.id) || obj
+      )
       return {
         ...state,
-        compensationOffers: Object.assign([], newOffers)
+        compensationOffers: Object.assign([], newOffers),
+        allCompensations: Object.assign([], newCompensationList)
       }
 
     case COMPENSATION.COMPENSATION_PERCENTILE:
@@ -38,12 +43,20 @@ const CompensationReducer = (state = initState, action) => {
         userCompensationPercentile: payload
       }
 
+    case COMPENSATION.CLEAR_COMPENSATION:
+      return {
+        ...state,
+        allCompensations: [],
+        totalCount: 0
+      }
+
     case COMPENSATION.FETCH_COMPENSATION:
       return {
         ...state,
+        totalCount: payload.totalCount,
         allCompensations: [
           ...state.allCompensations,
-          ...Object.assign([], payload)
+          ...Object.assign([], payload.compensations)
         ]
       }
 

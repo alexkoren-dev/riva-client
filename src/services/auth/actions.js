@@ -8,6 +8,8 @@ export const getCurrentUser = () => {
     try {
       const res = await privateApi.get('/user/current')
 
+      if (!res.user) throw res
+
       dispatch({
         type: AUTH.SIGNED_IN
       })

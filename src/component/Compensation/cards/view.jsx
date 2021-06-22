@@ -76,6 +76,8 @@ const CompensationViewCard = (data) => {
             <Progress
               type="circle"
               percent={userCompensationPercentile || 0}
+              format={(percent) => `${percent}%`}
+              strokeWidth={7}
               width={200}
             />
             <p className="text-info">

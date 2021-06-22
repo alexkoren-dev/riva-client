@@ -61,7 +61,7 @@ const CompensationOfferCard = () => {
     )
 
   if (compensationOffers.length === 0)
-    return <Typography.Text type="secondary">No offer found</Typography.Text>
+    return <Typography.Text type="secondary">No data found</Typography.Text>
 
   const compensation = compensationOffers[0]
 
@@ -114,14 +114,18 @@ const CompensationOfferCard = () => {
             </div>
           </div>
         </Col>
-        <Col span={24} lg={12}>
+        <Col
+          span={24}
+          lg={12}
+          style={{ display: 'flex', alignItems: 'center' }}
+        >
           <OfferReviewForm
             giveOfferFeedback={giveOfferFeedback}
             loading={submitting}
           />
         </Col>
         <Col span={24}>
-          <CompensationComments comments={compensation.comments || []} />
+          <CompensationComments data={compensation} />
         </Col>
       </Row>
     </Card>

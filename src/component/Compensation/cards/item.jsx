@@ -1,51 +1,81 @@
-import React, { useState } from 'react'
-import { Card, Row, Col, Typography, Tag } from 'antd'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import { Card, Row, Col, Typography, Tag, Skeleton } from 'antd'
 import CompensationHeader from './header'
 import CompensationComments from '../comments'
+import { totalCompensation, compensationString, kFormatter } from '@/utils'
 
-const CompensationItemCard = (data) => {
+const CompensationItemCard = ({ compensation }) => {
+  const { userInfo } = useSelector((state) => state.auth)
+
+  if (!compensation)
+    return (
+      <Card className="compensation-card" style={{ marginBottom: 30 }}>
+        <Row gutter={[30, 30]} style={{ padding: '2% 4%' }}>
+          <Skeleton active />
+        </Row>
+      </Card>
+    )
+
   return (
     <Card
       className="compensation-card"
       style={{ padding: '30px 2% 2% 2%', marginBottom: 30 }}
     >
-      <CompensationHeader likeCount={45} commentsCount={3} />
+      <CompensationHeader
+        likeCount={compensation.like.length}
+        isLike={compensation.like.includes(userInfo.id)}
+        commentsCount={compensation.comments.length}
+        id={compensation.id}
+      />
       <Row gutter={[30, 0]}>
         <Col span={24}>
-          <img
-            src="//logo.clearbit.com/autodisk.com"
-            style={{ marginBottom: 20 }}
-          />
-          <Typography.Title level={2}>$- 352K</Typography.Title>
+          {compensation.company && compensation.company.logo && (
+            <img src={compensation.company.logo} style={{ marginBottom: 20 }} />
+          )}
+          <Typography.Title level={2}>
+            $
+            {totalCompensation(compensation)
+              ? kFormatter(totalCompensation(compensation))
+              : '-'}
+          </Typography.Title>
         </Col>
         <Col span={24} lg={12}>
           <div style={{ maxWidth: 415 }}>
-            <p className="text-info">
-              $-K base | $-K bonus | $-K equity | $-K signing bonus | $-K
-              relocation bonus
-            </p>
+            <p className="text-info">{compensationString(compensation)}</p>
           </div>
         </Col>
         <Col span={24} lg={12}>
           <p className="text-info">
-            San Francisco, CA <br />
-            L5, Senior Software Engineer
+            {compensation.location && compensation.location.name}
+            <br />
+            {compensation.level && `${compensation.level}, `}
+            {compensation.jobTitle}
           </p>
         </Col>
         <Col span={24}>
           <div>
-            <Tag>1/6</Tag>
-            <Tag>US Citizied</Tag>
-            <Tag>Female</Tag>
-            <Tag>Asian</Tag>
+            {(compensation.yearsOfExperience ||
+              compensation.yearsAtCompany) && (
+              <Tag>
+                {compensation.yearsOfExperience || '-'}/
+                {compensation.yearsAtCompany || '-'}
+              </Tag>
+            )}
+            {compensation.gender && <Tag>{compensation.gender}</Tag>}
+            {compensation.needVisa && <Tag>{compensation.needVisa}</Tag>}
+            {compensation.racial && <Tag>{compensation.racial}</Tag>}
           </div>
         </Col>
         <Col span={24} style={{ paddingTop: 25 }}>
-          <CompensationComments comments={data.comments || []} />
+          <CompensationComments
+            data={compensation}
+            key={compensation.comments}
+          />
         </Col>
       </Row>
     </Card>
   )
 }
 
-export default CompensationItemCard
+export default React.memo(CompensationItemCard)

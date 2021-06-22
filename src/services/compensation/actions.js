@@ -2,12 +2,14 @@ import { COMMON, COMPENSATION } from '@/constants'
 import { privateApi } from '@/utils/request'
 
 // Get all compensations
-export const getAllCompensation = () => {
+export const getAllCompensations = (page, limit, search) => {
   return async (dispatch) => {
     try {
-      const res = await privateApi.get('/compensation/all')
+      const res = await privateApi.get(
+        `/compensation/all?page=${page}&limit=${limit}&search=${search}`
+      )
       dispatch({
-        type: COMPENSATION.USER_COMPENSATION,
+        type: COMPENSATION.FETCH_COMPENSATION,
         payload: res
       })
     } catch (err) {
@@ -17,6 +19,14 @@ export const getAllCompensation = () => {
       })
       throw err
     }
+  }
+}
+
+export const clearCompensations = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: COMPENSATION.CLEAR_COMPENSATION
+    })
   }
 }
 
@@ -141,10 +151,26 @@ export const updateCompensation = (data) => {
 }
 
 // Like a new compensation
-export const likeOrDislike = async (id, like) => {
+export const likeOrDislike = (id, like) => {
   return async (dispatch) => {
     try {
       const res = await privateApi.post(`/compensation/like/${id}`, like)
+      dispatch({
+        type: COMPENSATION.UPDATE_COMPENSATION,
+        payload: res
+      })
+      return res
+    } catch (err) {
+      throw err
+    }
+  }
+}
+
+// Post a new comment
+export const postComment = (id, comment) => {
+  return async (dispatch) => {
+    try {
+      const res = await privateApi.post(`/compensation/comment/${id}`, comment)
       dispatch({
         type: COMPENSATION.UPDATE_COMPENSATION,
         payload: res

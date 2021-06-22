@@ -40,7 +40,7 @@ export function kFormatter(num) {
   if (!num) return ''
   return Math.abs(num) > 999
     ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + 'K'
-    : Math.sign(num) * Math.abs(num)
+    : (Math.sign(num) * Math.abs(num)).toFixed(1)
 }
 
 export function totalCompensation(data) {
@@ -80,8 +80,10 @@ export function compensationString(data) {
   else string += '$-K bonus | '
 
   if (equity && equity.value)
-    if (equity.unit === '$') string += `$${kFormatter(equity.value)} equity | `
-    else string += `$${kFormatter((baseSalary / 100) * equity.value)} equity | `
+    if (equity.unit === '$')
+      string += `$${kFormatter(equity.value / equity.period)} equity | `
+    else
+      string += `$${kFormatter(equity.value / equity.period)} shared equity | `
   else string += '$-K equity | '
 
   if (signingBonus) string += `$${kFormatter(signingBonus)} signing bonus | `
