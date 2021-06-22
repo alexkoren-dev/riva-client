@@ -54,8 +54,10 @@ const CompensationList = () => {
       return
     }
 
-    await getAllCompensations(pageNo + 1, searchString)
-    setPageNo(pageNo + 1)
+    if (!loading) {
+      await getAllCompensations(pageNo + 1, searchString)
+      setPageNo(pageNo + 1)
+    }
   }
 
   const onSearch = async (keys) => {

@@ -133,7 +133,7 @@ const JobFamilyForm = ({ onNext, initialValues, loading }) => {
               required={false}
               rules={[{ required: true }]}
             >
-              <AutoComplete options={OPTIONS}>
+              <AutoComplete options={OPTIONS} autoFocus>
                 <Input size="large" className="form-control" />
               </AutoComplete>
             </Form.Item>

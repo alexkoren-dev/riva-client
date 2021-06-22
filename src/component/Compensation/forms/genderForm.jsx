@@ -40,7 +40,7 @@ const GenderForm = ({ onNext, initialValues, loading }) => {
               required={false}
               rules={[{ required: true }]}
             >
-              <Select size="large" className="no-border">
+              <Select size="large" className="no-border" autoFocus>
                 {GENDER_OPTIONS.map((co) => (
                   <Select.Option value={co.value} key={co.value}>
                     {co.label}

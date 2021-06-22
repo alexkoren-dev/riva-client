@@ -30,7 +30,7 @@ const LevelForm = ({ onNext, initialValues, loading }) => {
               required={false}
               rules={[{ required: true }]}
             >
-              <Input size="large" className="form-control" />
+              <Input size="large" className="form-control" autoFocus />
             </Form.Item>
           </Col>
         </Row>

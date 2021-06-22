@@ -33,22 +33,23 @@ const LocationForm = ({ onNext, initialValues, loading }) => {
   }
 
   const onSearch = async (searchText) => {
-    try {
-      const cities = await publicApi.get(
-        `${LOCATION_SEARCH_API}?q=${searchText}`
-      )
-      setSuggestedCities(cities)
-      setOptions(
-        cities.map((data, i) => ({
-          value: data.name,
-          key: i,
-          label: data.name
-        }))
-      )
-    } catch (e) {
-      setOptions([])
-      setSuggestedCities([])
-    }
+    //TODO:  Replace an API with public one
+    // try {
+    //   const cities = await publicApi.get(
+    //     `${LOCATION_SEARCH_API}?q=${searchText}`
+    //   )
+    //   setSuggestedCities(cities)
+    //   setOptions(
+    //     cities.map((data, i) => ({
+    //       value: data.name,
+    //       key: i,
+    //       label: data.name
+    //     }))
+    //   )
+    // } catch (e) {
+    //   setOptions([])
+    //   setSuggestedCities([])
+    // }
   }
 
   useMemo(() => {
@@ -81,7 +82,7 @@ const LocationForm = ({ onNext, initialValues, loading }) => {
               required={false}
               rules={[{ required: true }]}
             >
-              <AutoComplete options={options} onSearch={onSearch}>
+              <AutoComplete options={options} onSearch={onSearch} autoFocus>
                 <Input size="large" className="form-control" />
               </AutoComplete>
             </Form.Item>

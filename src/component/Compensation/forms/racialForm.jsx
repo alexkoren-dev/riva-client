@@ -45,7 +45,7 @@ const RacialForm = ({ onNext, initialValues, loading }) => {
               required={false}
               rules={[{ required: true }]}
             >
-              <Select size="large" className="no-border">
+              <Select size="large" className="no-border" autoFocus>
                 {RACIAL_OPTIONS.map((co) => (
                   <Select.Option value={co.value} key={co.value}>
                     {co.label}

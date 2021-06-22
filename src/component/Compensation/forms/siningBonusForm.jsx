@@ -32,6 +32,7 @@ const SiningBonusForm = ({ onNext, initialValues, loading }) => {
             >
               <InputNumber
                 min={0}
+                autoFocus
                 formatter={(value) =>
                   `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                 }

@@ -33,6 +33,7 @@ const YearsOfExperience = ({ onNext, initialValues, loading }) => {
               <InputNumber
                 min={0}
                 max={100}
+                autoFocus
                 size="large"
                 className="form-control"
                 style={{ width: '100%' }}

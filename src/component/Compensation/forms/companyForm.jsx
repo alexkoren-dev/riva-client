@@ -81,7 +81,7 @@ const CompanyForm = ({ onNext, initialValues = null, loading }) => {
               required={false}
               rules={[{ required: true }]}
             >
-              <AutoComplete options={options} onSearch={onSearch}>
+              <AutoComplete options={options} onSearch={onSearch} autoFocus>
                 <Input size="large" className="form-control" />
               </AutoComplete>
             </Form.Item>
