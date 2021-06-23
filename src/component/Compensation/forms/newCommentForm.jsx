@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Form, Button, Input } from 'antd'
 import actions from '@/services/compensation'
+import { getRandomId } from '@/utils'
 
 const NewCommentForm = ({ compensationId }) => {
   const dispatch = useDispatch()
@@ -37,7 +38,7 @@ const NewCommentForm = ({ compensationId }) => {
         rules={[{ required: true, message: 'Please type your comment!' }]}
       >
         <Input.TextArea
-          id={userCompensation.id}
+          id={getRandomId()}
           placeholder="Add your comment"
           autoSize={{ minRows: 1, maxRows: 4 }}
         />
