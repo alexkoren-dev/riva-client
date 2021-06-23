@@ -40,11 +40,9 @@ const CompensationList = () => {
   )
 
   useEffect(() => {
-    if (allCompensations.length === 0) {
-      getAllCompensations(pageNo)
-      return () => {
-        mountedRef.current = false
-      }
+    getAllCompensations(pageNo)
+    return () => {
+      mountedRef.current = false
     }
   }, [])
 

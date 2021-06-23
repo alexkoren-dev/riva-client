@@ -101,12 +101,13 @@ const CompensationOfferCard = () => {
               {compensation.jobTitle}
             </p>
             <div>
-              {(compensation.yearsOfExperience ||
-                compensation.yearsAtCompany) && (
+              {compensation.yearsOfExperience || compensation.yearsAtCompany ? (
                 <Tag>
                   {compensation.yearsOfExperience || '-'}/
                   {compensation.yearsAtCompany || '-'}
                 </Tag>
+              ) : (
+                ''
               )}
               {compensation.gender && <Tag>{compensation.gender}</Tag>}
               {compensation.needVisa && <Tag>{compensation.needVisa}</Tag>}
