@@ -37,6 +37,7 @@ const NewCommentForm = ({ compensationId }) => {
         rules={[{ required: true, message: 'Please type your comment!' }]}
       >
         <Input.TextArea
+          id={userCompensation.id}
           placeholder="Add your comment"
           autoSize={{ minRows: 1, maxRows: 4 }}
         />
