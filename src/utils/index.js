@@ -43,7 +43,7 @@ export function kFormatter(num) {
     ? Math.sign(num) * (Math.abs(num) / 1000000).toFixed(1) + 'M'
     : Math.abs(num) > 999
     ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + 'K'
-    : (Math.sign(num) * Math.abs(num)).toFixed(1)
+    : Math.sign(num) * (Math.abs(num)).toFixed(1)
 }
 
 export function totalCompensation(data) {
@@ -70,8 +70,7 @@ export function compensationString(data) {
   const { baseSalary, equity, targetBonus, signingBonus, relocationBonus } =
     data
 
-  if (baseSalary) string += `$${kFormatter(baseSalary)} base | `
-  else string += '$-K base'
+  string += `$${baseSalary?kFormatter(baseSalary):'-K'} base | `
 
   if (targetBonus && targetBonus.value)
     if (targetBonus.unit === '$')
@@ -89,12 +88,9 @@ export function compensationString(data) {
       string += `$${kFormatter(equity.value / equity.period)} shared equity | `
   else string += '$-K equity | '
 
-  if (signingBonus) string += `$${kFormatter(signingBonus)} signing bonus | `
-  else string += `$-K signing bonus | `
+  string += `$${signingBonus?kFormatter(signingBonus):'-K'} signing bonus | `
 
-  if (relocationBonus)
-    string += `$${kFormatter(relocationBonus)} relocation bonus`
-  else string += `$-K relocation bonus`
+  string += `$${relocationBonus?kFormatter(relocationBonus):'-K'} relocation bonus`
 
   return string
 }

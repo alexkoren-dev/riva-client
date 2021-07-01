@@ -89,12 +89,16 @@ export const resetPwdRequest = (obj) => (dispatch) =>
       })
     })
     .catch((err) => {
+      dispatch({
+        type: COMMON.TOP_ALERT,
+        payload: { type: 'error', message: err.message }
+      })
       throw err
     })
 
 export const changePassword = (obj, token) => (dispatch) => {
   return axios
-    .post(process.env.REACT_APP_API_URL + '/user/change-password', obj, {
+    .post(process.env.API_URL + '/user/change-password', obj, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -124,6 +128,13 @@ export const logOut = () => {
     dispatch({
       type: COMPENSATION.USER_COMPENSATION,
       payload: {}
+    })
+    dispatch({
+      type: COMPENSATION.OFFERED_COMPENSATION,
+      payload: []
+    })
+    dispatch({
+      type: COMPENSATION.CLEAR_COMPENSATION
     })
   }
 }

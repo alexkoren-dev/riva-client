@@ -1,62 +1,46 @@
-import React, { useState, useMemo } from 'react'
+import React from 'react'
+import useGoogle from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import {
   Form,
   Typography,
   Button,
   Input,
-  AutoComplete,
   Checkbox,
+  AutoComplete,
   Row,
-  Col
+  Col,
 } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
-import { publicApi } from '@/utils/request'
-
-const LOCATION_SEARCH_API = 'https://api.levels.fyi/geo/autocompleteCity'
 
 const LocationForm = ({ onNext, initialValues, loading }) => {
   const [form] = Form.useForm()
-  const [options, setOptions] = useState([])
-  const [suggestedCities, setSuggestedCities] = useState([])
+
+  const {
+    placePredictions,
+    getPlacePredictions,
+    isPlacePredictionsLoading,
+  } = useGoogle({
+    apiKey: process.env.GOOGLE_MAP_API,
+    options: {
+      types: ["(regions)"]
+    },
+  });
 
   const onFinish = ({ location, isHybridRole }) => {
-    const searched_cities = suggestedCities.filter((lo) => lo.name === location)
-    onNext({
-      location:
-        searched_cities.length > 0
-          ? { ...searched_cities[0], isHybridRole }
-          : {
-              name: location,
-              isHybridRole
-            }
-    })
+    setTimeout(function() {
+      onNext({location: {name: location, isHybridRole}})
+    }, 500)
   }
 
-  const onSearch = async (searchText) => {
-    //TODO:  Replace an API with public one
-    // try {
-    //   const cities = await publicApi.get(
-    //     `${LOCATION_SEARCH_API}?q=${searchText}`
-    //   )
-    //   setSuggestedCities(cities)
-    //   setOptions(
-    //     cities.map((data, i) => ({
-    //       value: data.name,
-    //       key: i,
-    //       label: data.name
-    //     }))
-    //   )
-    // } catch (e) {
-    //   setOptions([])
-    //   setSuggestedCities([])
-    // }
-  }
+  const getPlaceOptions = () => {
+    if(isPlacePredictionsLoading) return []
 
-  useMemo(() => {
-    if (initialValues && initialValues.countryId) {
-      setSuggestedCities([initialValues])
-    }
-  }, [initialValues])
+    return placePredictions.map((item, i) => ({
+      value: item.description,
+      key: i,
+      label: item.description
+    }))
+  }
 
   return (
     <div className="compensation-form">
@@ -81,8 +65,9 @@ const LocationForm = ({ onNext, initialValues, loading }) => {
               label={'Location'}
               required={false}
               rules={[{ required: true }]}
+              style={{marginBottom: 10}}
             >
-              <AutoComplete options={options} onSearch={onSearch} autoFocus>
+              <AutoComplete options={getPlaceOptions()} onSearch={(val) => getPlacePredictions({input: val})} autoFocus>
                 <Input size="large" className="form-control" />
               </AutoComplete>
             </Form.Item>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Comment, Tooltip, Button } from 'antd'
+import ReadMoreReact from 'read-more-react'
 import moment from 'moment'
 import { NewCommentForm } from './forms'
 
@@ -19,7 +20,14 @@ const CompensationComments = ({ data }) => {
             author={
               <a className="comment-author">{comment.company || 'Unknown'}</a>
             }
-            content={<p>{comment.comment}</p>}
+            content={
+              <ReadMoreReact 
+                text={comment.comment}
+                min={200}
+                ideal={250}
+                max={300}
+                readMoreText="read more"/>
+            }
             datetime={
               <Tooltip
                 title={moment(new Date(comment.createdDate)).format(

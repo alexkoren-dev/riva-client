@@ -13,13 +13,13 @@ import AuthGuard from '@/component/AuthGuard'
 // Components
 import Login from '@/pages/auth/login'
 import SignUp from '@/pages/auth/signup'
+import ResetPwd from '@/pages/auth/reset_pwd'
+import ForgotPwd from '@/pages/auth/forgot_pwd'
 import Splash from '@/pages/splash'
 import Home from '@/pages/home'
 import Compensation from '@/pages/compensation'
 import NewsFeed from '@/pages/news_feed'
 
-// Navigation Icons
-import WalletIcon from '@/assets/icons/wallet'
 
 export default () => {
   return [
@@ -61,6 +61,20 @@ export default () => {
       exact: true,
       layout: BasicLayout,
       component: LinkedInPopUp
+    },
+    {
+      path: '/forgot-pwd',
+      guard: GuestGuard,
+      exact: true,
+      layout: BasicLayout,
+      component: ForgotPwd
+    },
+    {
+      path: '/reset-pwd',
+      guard: GuestGuard,
+      exact: true,
+      layout: BasicLayout,
+      component: ResetPwd
     },
     {
       path: '/home',

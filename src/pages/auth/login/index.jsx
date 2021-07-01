@@ -112,7 +112,7 @@ const Login = (props) => {
                   />
                 </Form.Item>
                 <p style={{ marginBottom: 40 }}>
-                  <NavLink to={'/auth/forgot-pwd'} className="redirect-link">
+                  <NavLink to={'/forgot-pwd'} className="redirect-link">
                     Forgot your password?
                   </NavLink>
                 </p>
