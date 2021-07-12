@@ -20,7 +20,6 @@ import Home from '@/pages/home'
 import Compensation from '@/pages/compensation'
 import NewsFeed from '@/pages/news_feed'
 
-
 export default () => {
   return [
     {

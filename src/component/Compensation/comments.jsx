@@ -21,12 +21,13 @@ const CompensationComments = ({ data }) => {
               <a className="comment-author">{comment.company || 'Unknown'}</a>
             }
             content={
-              <ReadMoreReact 
+              <ReadMoreReact
                 text={comment.comment}
                 min={200}
                 ideal={250}
                 max={300}
-                readMoreText="read more"/>
+                readMoreText="read more"
+              />
             }
             datetime={
               <Tooltip

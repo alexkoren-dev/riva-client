@@ -43,7 +43,7 @@ export function kFormatter(num) {
     ? Math.sign(num) * (Math.abs(num) / 1000000).toFixed(1) + 'M'
     : Math.abs(num) > 999
     ? Math.sign(num) * (Math.abs(num) / 1000).toFixed(1) + 'K'
-    : Math.sign(num) * (Math.abs(num)).toFixed(1)
+    : Math.sign(num) * Math.abs(num).toFixed(1)
 }
 
 export function totalCompensation(data) {
@@ -52,15 +52,15 @@ export function totalCompensation(data) {
   if (!baseSalary) return ''
   let totalComp = baseSalary
 
-  if (equity && equity.value && equity.unit === '$')
-    totalComp += parseFloat((equity.value / equity.period).toFixed(2))
+  if (equity && equity.value && (equity.unit || '$') === '$')
+    totalComp += parseFloat((equity.value / (equity.period || 1)).toFixed(2))
 
   if (targetBonus && targetBonus.value)
-    if (targetBonus.unit === '$') totalComp += targetBonus.value
-    else
+    if (targetBonus.unit === '%')
       totalComp += parseFloat(
         ((baseSalary / 100) * targetBonus.value).toFixed(2)
       )
+    else totalComp += targetBonus.value
 
   return totalComp
 }
@@ -70,27 +70,32 @@ export function compensationString(data) {
   const { baseSalary, equity, targetBonus, signingBonus, relocationBonus } =
     data
 
-  string += `$${baseSalary?kFormatter(baseSalary):'-K'} base | `
+  string += `$${baseSalary ? kFormatter(baseSalary) : '-K'} base | `
 
   if (targetBonus && targetBonus.value)
-    if (targetBonus.unit === '$')
-      string += `$${kFormatter(targetBonus.value)} bonus | `
-    else
+    if (targetBonus.unit === '%')
       string += `$${kFormatter(
         (baseSalary / 100) * targetBonus.value
       )} bonus | `
+    else string += `$${kFormatter(targetBonus.value)} bonus | `
   else string += '$-K bonus | '
 
   if (equity && equity.value)
-    if (equity.unit === '$')
-      string += `$${kFormatter(equity.value / equity.period)} equity | `
+    if (equity.unit === 'shares')
+      string += `$${kFormatter(
+        equity.value / (equity.period || 1)
+      )} shared equity | `
     else
-      string += `$${kFormatter(equity.value / equity.period)} shared equity | `
+      string += `$${kFormatter(equity.value / (equity.period || 1))} equity | `
   else string += '$-K equity | '
 
-  string += `$${signingBonus?kFormatter(signingBonus):'-K'} signing bonus | `
+  string += `$${
+    signingBonus ? kFormatter(signingBonus) : '-K'
+  } signing bonus | `
 
-  string += `$${relocationBonus?kFormatter(relocationBonus):'-K'} relocation bonus`
+  string += `$${
+    relocationBonus ? kFormatter(relocationBonus) : '-K'
+  } relocation bonus`
 
   return string
 }

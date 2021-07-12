@@ -1,5 +1,5 @@
 import React from 'react'
-import useGoogle from "react-google-autocomplete/lib/usePlacesAutocompleteService";
+import useGoogle from 'react-google-autocomplete/lib/usePlacesAutocompleteService'
 import {
   Form,
   Typography,
@@ -8,32 +8,29 @@ import {
   Checkbox,
   AutoComplete,
   Row,
-  Col,
+  Col
 } from 'antd'
 import { COMMON_VALIDATE_MESSAGES } from '@/constants'
 
 const LocationForm = ({ onNext, initialValues, loading }) => {
   const [form] = Form.useForm()
 
-  const {
-    placePredictions,
-    getPlacePredictions,
-    isPlacePredictionsLoading,
-  } = useGoogle({
-    apiKey: process.env.GOOGLE_MAP_API,
-    options: {
-      types: ["(regions)"]
-    },
-  });
+  const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } =
+    useGoogle({
+      apiKey: process.env.GOOGLE_MAP_API,
+      options: {
+        types: ['(regions)']
+      }
+    })
 
   const onFinish = ({ location, isHybridRole }) => {
-    setTimeout(function() {
-      onNext({location: {name: location, isHybridRole}})
+    setTimeout(function () {
+      onNext({ location: { name: location, isHybridRole } })
     }, 500)
   }
 
   const getPlaceOptions = () => {
-    if(isPlacePredictionsLoading) return []
+    if (isPlacePredictionsLoading) return []
 
     return placePredictions.map((item, i) => ({
       value: item.description,
@@ -65,9 +62,13 @@ const LocationForm = ({ onNext, initialValues, loading }) => {
               label={'Location'}
               required={false}
               rules={[{ required: true }]}
-              style={{marginBottom: 10}}
+              style={{ marginBottom: 10 }}
             >
-              <AutoComplete options={getPlaceOptions()} onSearch={(val) => getPlacePredictions({input: val})} autoFocus>
+              <AutoComplete
+                options={getPlaceOptions()}
+                onSearch={(val) => getPlacePredictions({ input: val })}
+                autoFocus
+              >
                 <Input size="large" className="form-control" />
               </AutoComplete>
             </Form.Item>

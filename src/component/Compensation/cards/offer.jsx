@@ -79,12 +79,17 @@ const CompensationOfferCard = () => {
       <Row gutter={[30, 30]}>
         <Col span={24} lg={12} className="border-right">
           <div style={{ maxWidth: 415 }}>
-            {compensation.company && compensation.company.logo && (
-              <img
-                src={compensation.company.logo}
-                style={{ marginBottom: 20 }}
-              />
-            )}
+            {compensation.company &&
+              (compensation.company.logo ? (
+                <img
+                  src={compensation.company.logo}
+                  style={{ marginBottom: 20 }}
+                />
+              ) : (
+                <Typography.Title level={2} style={{ color: '#AEB9D0' }}>
+                  {compensation.company.name}
+                </Typography.Title>
+              ))}
             <Typography.Title level={2}>
               $
               {totalCompensation(compensation)
