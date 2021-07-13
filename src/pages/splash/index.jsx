@@ -10,7 +10,7 @@ import ThirdTipImage from '@/assets/images/tip-3.png'
 const Splash = (props) => {
   useEffect(() => {
     setTimeout(() => {
-      props.history.push('/signup')
+      props.history.push('/home')
     }, 15000)
   }, [])
 

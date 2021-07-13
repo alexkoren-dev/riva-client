@@ -119,6 +119,22 @@ export const changePassword = (obj, token) => (dispatch) => {
     })
 }
 
+export const openLoginModal = () => {
+  return (dispatch) => {
+    dispatch({
+      type: AUTH.OPEN_MODAL
+    })
+  }
+}
+
+export const closeLoginModal = () => {
+  return (dispatch) => {
+    dispatch({
+      type: AUTH.CLOSE_MODAL
+    })
+  }
+}
+
 export const logOut = () => {
   window.localStorage.removeItem('accessToken')
   return (dispatch) => {

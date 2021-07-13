@@ -1,4 +1,5 @@
 import React, { Suspense, Fragment, useMemo } from 'react'
+import { useSelector } from 'react-redux'
 import { Switch, Route, Router } from 'react-router-dom'
 import { hot } from 'react-hot-loader/root'
 import { createBrowserHistory } from 'history'
@@ -11,9 +12,13 @@ import TopAlert from '@/component/TopAlert'
 import ScrollReset from '@/component/ScrollReset'
 import LoadingScreen from '@/component/LoadingScreen'
 
+import LoginPopup from '@/pages/auth/login/loginPopup'
+
 const history = createBrowserHistory()
 
 const App = () => {
+  const { openAuthPopup } = useSelector((state) => state.auth)
+
   const routers = useMemo(() => {
     return router()
   }, [])
@@ -26,6 +31,7 @@ const App = () => {
             const Guard = route.guard || Fragment
             const Layout = route.layout || Fragment
             const Component = route.component
+            const ComponentProps = route.props || {}
 
             return (
               <Route
@@ -38,7 +44,7 @@ const App = () => {
                       {route.routes ? (
                         renderRoutes(route.routes)
                       ) : (
-                        <Component {...props} />
+                        <Component {...props} {...ComponentProps} />
                       )}
                     </Layout>
                   </Guard>
@@ -54,6 +60,7 @@ const App = () => {
     <ConfigProvider locale={enUS}>
       <TopAlert />
       <Router history={history}>
+        <LoginPopup visible={openAuthPopup} />
         <Auth>
           <ScrollReset />
           {renderRoutes(routers)}

@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { Card, Row, Col, Typography, Progress, Skeleton } from 'antd'
 import { totalCompensation, compensationString, kFormatter } from '@/utils'
 import actions from '@/services/compensation'
+import authActions from '@/services/auth'
 
 const CompensationViewCard = (data) => {
   const dispatch = useDispatch()
@@ -12,6 +13,7 @@ const CompensationViewCard = (data) => {
   const { userCompensation, userCompensationPercentile } = useSelector(
     (state) => state.compensation
   )
+  const { userInfo, is_authed } = useSelector((state) => state.auth)
 
   const getCompensationPercentile = useCallback(async () => {
     try {
@@ -24,8 +26,12 @@ const CompensationViewCard = (data) => {
     }
   }, [userCompensationPercentile])
 
+  const openLoginPopup = () => {
+    dispatch(authActions.openLoginModal())
+  }
+
   useEffect(() => {
-    if (!userCompensationPercentile) {
+    if (!userCompensationPercentile && userInfo) {
       getCompensationPercentile()
       return () => {
         mountedRef.current = false
@@ -61,11 +67,17 @@ const CompensationViewCard = (data) => {
           <p className="text-info" style={{ marginBottom: 80 }}>
             {compensationString(userCompensation)}
           </p>
-          <NavLink to="/compensation" className="text-info">
-            {userCompensation && userCompensation.id
-              ? 'Update your compensation ➔'
-              : 'Add your compensation ➔'}
-          </NavLink>
+          {userInfo && is_authed ? (
+            <NavLink to="/compensation" className="text-info">
+              {userCompensation && userCompensation.id
+                ? 'Update your compensation ➔'
+                : 'Add your compensation ➔'}
+            </NavLink>
+          ) : (
+            <a className="text-info" onClick={() => openLoginPopup()}>
+              Add your compensation ➔
+            </a>
+          )}
         </Col>
         <Col
           span={24}

@@ -26,7 +26,6 @@ export default () => {
       path: '/news-feed',
       exact: true,
       layout: AppLayout,
-      guard: AuthGuard,
       component: NewsFeed,
       navigation: {
         title: 'News Feed',
@@ -35,7 +34,6 @@ export default () => {
     },
     {
       path: '/compensation',
-      guard: AuthGuard,
       exact: true,
       layout: AppLayout,
       component: Compensation
@@ -77,7 +75,6 @@ export default () => {
     },
     {
       path: '/home',
-      guard: AuthGuard,
       exact: true,
       component: () => <Redirect to="/news-feed" />
     },
@@ -85,7 +82,6 @@ export default () => {
       path: '/',
       layout: BasicLayout,
       exact: true,
-      guard: GuestGuard,
       component: Splash
     }
   ]

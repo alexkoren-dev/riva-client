@@ -24,7 +24,7 @@ const CompensationItemCard = ({ compensation }) => {
     >
       <CompensationHeader
         likeCount={compensation.like.length}
-        isLike={compensation.like.includes(userInfo.id)}
+        isLike={compensation.like.includes(userInfo ? userInfo.id : null)}
         commentsCount={compensation.comments.length}
         id={compensation.id}
       />

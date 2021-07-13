@@ -6,6 +6,7 @@ import CompensationHeader from './header'
 import CompensationComments from '../comments'
 import { totalCompensation, compensationString, kFormatter } from '@/utils'
 import actions from '@/services/compensation'
+import authActions from '@/services/auth'
 
 const CompensationOfferCard = () => {
   const dispatch = useDispatch()
@@ -13,32 +14,51 @@ const CompensationOfferCard = () => {
 
   const [loading, setLoading] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [offer, setOffer] = useState(null)
 
-  const { userInfo } = useSelector((state) => state.auth)
-  const { compensationOffers } = useSelector((state) => state.compensation)
+  const { userInfo, is_authed } = useSelector((state) => state.auth)
+  const { compensationOffers, allCompensations } = useSelector(
+    (state) => state.compensation
+  )
 
   const getCompensationOffer = useCallback(async () => {
-    try {
-      setLoading(true)
-      await dispatch(actions.getCompensationOffer())
-      if (!mountedRef.current) return null
-      setLoading(false)
-    } catch (e) {
-      console.log(e)
-      setLoading(false)
+    if (userInfo && is_authed) {
+      try {
+        setLoading(true)
+        await dispatch(actions.getCompensationOffer())
+        if (!mountedRef.current) return null
+        setLoading(false)
+      } catch (e) {
+        console.log(e)
+        setLoading(false)
+      }
     }
   }, [])
 
+  useEffect(() => {
+    setOffer(
+      userInfo && is_authed
+        ? compensationOffers.length > 0
+          ? compensationOffers[0]
+          : null
+        : allCompensations.length > 0
+        ? allCompensations[0]
+        : null
+    )
+  }, [compensationOffers, allCompensations])
+
   const giveOfferFeedback = async (formdata) => {
-    try {
-      setSubmitting(true)
-      await dispatch(
-        actions.giveOfferFeedback(compensationOffers[0].id, formdata)
-      )
-      setSubmitting(false)
-    } catch (e) {
-      console.log(e)
-      setSubmitting(false)
+    if (userInfo && is_authed) {
+      try {
+        setSubmitting(true)
+        await dispatch(actions.giveOfferFeedback(offer.id, formdata))
+        setSubmitting(false)
+      } catch (e) {
+        console.log(e)
+        setSubmitting(false)
+      }
+    } else {
+      dispatch(authActions.openLoginModal())
     }
   }
 
@@ -60,10 +80,10 @@ const CompensationOfferCard = () => {
       </Card>
     )
 
-  if (compensationOffers.length === 0)
+  if (!offer)
     return <Typography.Text type="secondary">No data found</Typography.Text>
 
-  const compensation = compensationOffers[0]
+  const compensation = offer
 
   return (
     <Card
@@ -72,7 +92,7 @@ const CompensationOfferCard = () => {
     >
       <CompensationHeader
         likeCount={compensation.like.length}
-        isLike={compensation.like.includes(userInfo.id)}
+        isLike={compensation.like.includes(userInfo ? userInfo.id : null)}
         commentsCount={compensation.comments.length}
         id={compensation.id}
       />

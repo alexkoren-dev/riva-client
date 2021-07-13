@@ -2,7 +2,8 @@ import { AUTH } from '@/constants'
 
 const initState = {
   is_authed: window.localStorage.getItem('accessToken') ? true : false,
-  userInfo: null
+  userInfo: null,
+  openAuthPopup: false
 }
 
 const AuthReducer = (state = initState, action) => {
@@ -26,6 +27,18 @@ const AuthReducer = (state = initState, action) => {
       return {
         ...state,
         userInfo: Object.assign({}, payload)
+      }
+
+    case AUTH.OPEN_MODAL:
+      return {
+        ...state,
+        openAuthPopup: true
+      }
+
+    case AUTH.CLOSE_MODAL:
+      return {
+        ...state,
+        openAuthPopup: false
       }
 
     case AUTH.BACKGROUND_IMAGE_UPLOAD:
