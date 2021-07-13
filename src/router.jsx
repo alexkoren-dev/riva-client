@@ -74,15 +74,15 @@ export default () => {
       component: ResetPwd
     },
     {
-      path: '/home',
+      path: '/',
       exact: true,
       component: () => <Redirect to="/news-feed" />
     },
-    {
-      path: '/',
-      layout: BasicLayout,
-      exact: true,
-      component: Splash
-    }
+    // {
+    //   path: '/',
+    //   layout: BasicLayout,
+    //   exact: true,
+    //   component: Splash
+    // }
   ]
 }
