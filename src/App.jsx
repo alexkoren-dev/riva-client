@@ -1,7 +1,8 @@
-import React, { Suspense, Fragment, useMemo } from 'react'
+import React, { Suspense, Fragment, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Switch, Route, Router } from 'react-router-dom'
 import { hot } from 'react-hot-loader/root'
+import { BrowserView, MobileView } from 'react-device-detect'
 import { createBrowserHistory } from 'history'
 import { ConfigProvider } from 'antd'
 import enUS from 'antd/lib/locale/en_US'
@@ -13,6 +14,7 @@ import ScrollReset from '@/component/ScrollReset'
 import LoadingScreen from '@/component/LoadingScreen'
 
 import LoginPopup from '@/pages/auth/login/loginPopup'
+import MobileWarning from '@/component/MobileWarning'
 
 const history = createBrowserHistory()
 
@@ -58,14 +60,19 @@ const App = () => {
 
   return (
     <ConfigProvider locale={enUS}>
-      <TopAlert />
-      <Router history={history}>
-        <LoginPopup visible={openAuthPopup} />
-        <Auth>
-          <ScrollReset />
-          {renderRoutes(routers)}
-        </Auth>
-      </Router>
+      <BrowserView>
+        <TopAlert />
+        <Router history={history}>
+          <LoginPopup visible={openAuthPopup} />
+          <Auth>
+            <ScrollReset />
+            {renderRoutes(routers)}
+          </Auth>
+        </Router>
+      </BrowserView>
+      <MobileView>
+        <MobileWarning />
+      </MobileView>
     </ConfigProvider>
   )
 }

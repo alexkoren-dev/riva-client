@@ -77,7 +77,7 @@ export default () => {
       path: '/',
       exact: true,
       component: () => <Redirect to="/news-feed" />
-    },
+    }
     // {
     //   path: '/',
     //   layout: BasicLayout,

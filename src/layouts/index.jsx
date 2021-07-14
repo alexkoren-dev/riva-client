@@ -7,7 +7,7 @@ const AppLayout = (props) => {
   const [collapsed, setCollapsed] = useState(
     (window.localStorage.getItem('sidebarCollapsed') === 'true'
       ? true
-      : false) || false
+      : false) || true
   )
 
   const onCollapse = (collapsed) => {
