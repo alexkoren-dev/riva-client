@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { LinkedInPopUp } from 'react-linkedin-login-oauth2'
-import { WalletOutlined } from '@ant-design/icons'
+import { WalletOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 
 // Layouts
 import { AppLayout, BasicLayout } from '@/layouts'
@@ -19,6 +19,7 @@ import Splash from '@/pages/splash'
 import Home from '@/pages/home'
 import Compensation from '@/pages/compensation'
 import NewsFeed from '@/pages/news_feed'
+import NegotiationAsk from '@/pages/negotiation'
 
 export default () => {
   return [
@@ -30,6 +31,16 @@ export default () => {
       navigation: {
         title: 'News Feed',
         Icon: WalletOutlined
+      }
+    },
+    {
+      path: '/negotiation',
+      exact: true,
+      layout: AppLayout,
+      component: NegotiationAsk,
+      navigation: {
+        title: 'Negotiations Ask',
+        Icon: QuestionCircleOutlined
       }
     },
     {

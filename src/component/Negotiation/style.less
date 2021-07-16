@@ -1,0 +1,55 @@
+.negotiation-ask-form {
+    padding-bottom: 60px;
+
+    .negotiation-ask-title {
+        font-size: 18px;
+        color: var(--text-gray-dark-color);
+        margin: 30px 0;
+        display: block;
+        width: 70%;
+    }
+
+    form {
+        .form__footer {
+            display: flex;
+            align-items: center;
+
+            button {
+                min-width: 100px;
+                margin-right: 20px;
+            }
+        }
+        label:not(.ant-checkbox-wrapper) {
+            display: none;
+        }
+        .ant-checkbox-inner {
+            border-radius: 3px;
+        }
+        .no-border > div,
+        .auto-complete > div,
+        .form-control {
+            border-radius: 0;
+            border-top: none;
+            border-right: none;
+            border-left: none;
+        }
+        .auto-complete > div,
+        .auto-complete input {
+            height: 56px !important;
+        }
+        .checkbox-wrapper {
+            label {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                margin-bottom: 20px;
+
+                .ant-checkbox + span {
+                    padding-top: 7px;
+                    color: #AEB9D0 !important;
+                    font-weight: bold;
+                }
+            }
+        }        
+    }
+}

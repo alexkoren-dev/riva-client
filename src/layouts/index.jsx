@@ -5,9 +5,7 @@ import Header from './header'
 
 const AppLayout = (props) => {
   const [collapsed, setCollapsed] = useState(
-    (window.localStorage.getItem('sidebarCollapsed') === 'true'
-      ? true
-      : false) || true
+    window.localStorage.getItem('sidebarCollapsed') === 'false' ? false : true
   )
 
   const onCollapse = (collapsed) => {
@@ -19,7 +17,11 @@ const AppLayout = (props) => {
     <Layout className="app-layout">
       <Header />
       <Layout style={{ marginTop: 78 }}>
-        <SideBar collapsed={collapsed} onCollapse={onCollapse} />
+        <SideBar
+          collapsed={collapsed}
+          onCollapse={onCollapse}
+          defaultCollapsed={true}
+        />
         <Layout.Content style={{ marginLeft: collapsed ? 80 : 280 }}>
           <div className="container">{props.children}</div>
         </Layout.Content>
